@@ -1,5 +1,6 @@
 from django.urls import path
 from api.views import (
+    CompleteTodoItemView,
     TodoItemDetailView,
     TodoitemsListView,
     TodoitemsOnListView,
@@ -19,4 +20,9 @@ urlpatterns = [
     ),
     path("items/", TodoitemsListView.as_view(), name="todoitem-list"),
     path("items/<int:pk>/", TodoItemDetailView.as_view(), name="todoitem-detail"),
+    path(
+        "items/<int:pk>/complete",
+        CompleteTodoItemView.as_view(),
+        name="todoitem-complete",
+    ),
 ]

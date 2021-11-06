@@ -1,4 +1,4 @@
-from django.db.models import query
+from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -6,9 +6,11 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
     ListAPIView,
+    UpdateAPIView,
 )
 from api.models import TodoItem, TodoList
 from api.serializers import (
+    TodoItemCompleteSerializer,
     TodoItemSingleSerializer,
     TodoItemsOnListSerializer,
     TodoListSerializer,
@@ -71,3 +73,13 @@ class TodoItemDetailView(RetrieveUpdateDestroyAPIView):
                 todo_list=todo_list,
             )
         instance = serializer.save()
+
+
+class CompleteTodoItemView(UpdateAPIView):
+    queryset = TodoItem.objects.all()
+    serializer_class = TodoItemCompleteSerializer
+
+    def perform_update(self, serializer):
+        serializer.instance.datecompleted = timezone.now()
+        serializer.instance.completed = True
+        serializer.save()

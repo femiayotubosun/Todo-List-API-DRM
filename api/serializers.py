@@ -26,6 +26,13 @@ class TodoItemsOnListSerializer(serializers.ModelSerializer):
         fields = ["id", "detail", "completed", "date_added"]
 
 
+class TodoItemCompleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TodoItem
+        fields = ["id"]
+        read_only_fields = ["id", "detail", "completed", "date_added", "date_completed"]
+
+
 class TodoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoList
