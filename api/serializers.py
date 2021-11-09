@@ -17,13 +17,20 @@ class TodoItemSingleSerializer(serializers.ModelSerializer):
             "todo_list",
             "todo_list_id",
             "completed",
+            "date_completed",
         ]
 
 
 class TodoItemsOnListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoItem
-        fields = ["id", "detail", "completed", "date_added"]
+        fields = [
+            "id",
+            "detail",
+            "completed",
+            "date_added",
+            "date_completed",
+        ]
 
 
 class TodoItemCompleteSerializer(serializers.ModelSerializer):

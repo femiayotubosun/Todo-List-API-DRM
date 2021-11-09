@@ -1,3 +1,4 @@
+from typing import List
 from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -50,9 +51,15 @@ class TodoitemsOnListView(ListCreateAPIView):
     def perform_create(self, serializer):
         todo_list = TodoList.objects.get(pk=self.kwargs["pk"])
         serializer.save(todo_list=todo_list)
-        # item = TodoItem.objects.create(todo_list=todo_list, **serializer.data)
 
-        # return TodoItemsOnListSerializer(item)
+
+# How to get url params
+class CompletedTodoitemsOnListView(ListAPIView):
+    serializer_class = TodoItemsOnListSerializer
+
+    def get_queryset(self):
+        todo_list = TodoList.objects.get(pk=self.kwargs["pk"])
+        return TodoItem.objects.filter(todo_list=todo_list, completed=True)
 
 
 class TodoitemsListView(ListAPIView):
